@@ -18,7 +18,8 @@ TTWO_descriptive_statistics[4,] <- c(kurtosis(TTWO$Open),kurtosis(TTWO$High),kur
 
 rownames(TTWO_descriptive_statistics) <- c("MEAN","MEDIAN", "SKEWNESS", "KURTOSIS")
 
-# DNEVNI LOG RETURN (ovo proveriti posto nisam siguran jer sam to radio ranije)
+# DNEVNI LOG RETURN 
+
 #prvo moraju da se naprave kolone u dataframe-u
 TTWO$LogReturn_Open<-0
 TTWO$LogReturn_High<-0
@@ -33,9 +34,25 @@ for(i in 2:nrow(TTWO)){
   TTWO$LogReturn_Last[i]<-ln(TTWO$Last[i]/TTWO$Last[i-1])
 }
 
+# DNEVNI NET RETURN (cisti prinos)
+
+#prvo moraju da se naprave kolone u dataframe-u
+TTWO$NetReturn_Open<-0
+TTWO$NetReturn_High<-0
+TTWO$NetReturn_Low<-0
+TTWO$NetReturn_Last<-0
+
+#sad se dodaju vrednosti tim kolonama
+for(i in 2:nrow(TTWO)){
+  TTWO$NetReturn_Open[i]<-(TTWO$Open[i]-TTWO$Open[i-1])/TTWO$Open[i-1]
+  TTWO$NetReturn_High[i]<-(TTWO$High[i]-TTWO$High[i-1])/TTWO$High[i-1]
+  TTWO$NetReturn_Low[i]<-(TTWO$Low[i]-TTWO$Low[i-1])/TTWO$Low[i-1]
+  TTWO$NetReturn_Last[i]<-(TTWO$Last[i]-TTWO$Last[i-1])/TTWO$Last[i-1]
+}
+
 # ///////////////////////////
 
-# grupisanje podataka po nedeljama
+# GRUPISANJE PODATAKA PO NEDELJAMA
 
 library(dplyr)
 library(lubridate)
@@ -102,7 +119,26 @@ for(i in 2:nrow(TTWO_weekly)){
   TTWO_weekly$LogReturn_Close[i]<-ln(TTWO_weekly$weekly_close[i]/TTWO_weekly$weekly_close[i-1])
 }
 
+# NEDELJNI NET RETURN (cisti prinos)
+
+#prvo moraju da se naprave kolone u dataframe-u
+TTWO_weekly$NetReturn_Open<-0
+TTWO_weekly$NetReturn_High<-0
+TTWO_weekly$NetReturn_Low<-0
+TTWO_weekly$NetReturn_Last<-0
+
+#sad se dodaju vrednosti tim kolonama
+for(i in 2:nrow(TTWO_weekly)){
+  TTWO_weekly$NetReturn_Open[i]<-(TTWO_weekly$weekly_open[i]-TTWO_weekly$weekly_open[i-1])/TTWO_weekly$weekly_open[i-1]
+  TTWO_weekly$NetReturn_High[i]<-(TTWO_weekly$weekly_high[i]-TTWO_weekly$weekly_high[i-1])/TTWO_weekly$weekly_high[i-1]
+  TTWO_weekly$NetReturn_Low[i]<-(TTWO_weekly$weekly_low[i]-TTWO_weekly$weekly_low[i-1])/TTWO_weekly$weekly_low[i-1]
+  TTWO_weekly$NetReturn_Last[i]<-(TTWO_weekly$weekly_close[i]-TTWO_weekly$weekly_close[i-1])/TTWO_weekly$weekly_close[i-1]
+}
+
+
 # ///////////////////////////
+
+# GRUPISANJE PODATAKA PO MESECIMA
 
 # Ucitaj pakete
 library(dplyr)
@@ -166,7 +202,26 @@ for(i in 2:nrow(TTWO_monthly)){
   TTWO_monthly$LogReturn_Close[i]<-ln(TTWO_monthly$monthly_close[i]/TTWO_monthly$monthly_close[i-1])
 }
 
+# MESECNI NET RETURN (cisti prinos)
+
+#prvo moraju da se naprave kolone u dataframe-u
+TTWO_monthly$NetReturn_Open<-0
+TTWO_monthly$NetReturn_High<-0
+TTWO_monthly$NetReturn_Low<-0
+TTWO_monthly$NetReturn_Last<-0
+
+#sad se dodaju vrednosti tim kolonama
+for(i in 2:nrow(TTWO_monthly)){
+  TTWO_monthly$NetReturn_Open[i]<-(TTWO_monthly$monthly_open[i]-TTWO_monthly$monthly_open[i-1])/TTWO_monthly$monthly_open[i-1]
+  TTWO_monthly$NetReturn_High[i]<-(TTWO_monthly$monthly_high[i]-TTWO_monthly$monthly_high[i-1])/TTWO_monthly$monthly_high[i-1]
+  TTWO_monthly$NetReturn_Low[i]<-(TTWO_monthly$monthly_low[i]-TTWO_monthly$monthly_low[i-1])/TTWO_monthly$monthly_low[i-1]
+  TTWO_monthly$NetReturn_Last[i]<-(TTWO_monthly$monthly_close[i]-TTWO_monthly$monthly_close[i-1])/TTWO_monthly$monthly_close[i-1]
+}
+
+
 # ///////////////////////////
+
+# GRUPISANJE PODATAKA PO GODINAMA
 
 # Ucitaj pakete
 library(dplyr)
@@ -225,6 +280,22 @@ for(i in 2:nrow(TTWO_yearly)){
   TTWO_yearly$LogReturn_Close[i]<-ln(TTWO_yearly$yearly_close[i]/TTWO_yearly$yearly_close[i-1])
 }
 
+# GODISNJI NET RETURN (cisti prinos)
+
+#prvo moraju da se naprave kolone u dataframe-u
+TTWO_yearly$NetReturn_Open<-0
+TTWO_yearly$NetReturn_High<-0
+TTWO_yearly$NetReturn_Low<-0
+TTWO_yearly$NetReturn_Last<-0
+
+#sad se dodaju vrednosti tim kolonama
+for(i in 2:nrow(TTWO_yearly)){
+  TTWO_yearly$NetReturn_Open[i]<-(TTWO_yearly$yearly_open[i]-TTWO_yearly$yearly_open[i-1])/TTWO_yearly$yearly_open[i-1]
+  TTWO_yearly$NetReturn_High[i]<-(TTWO_yearly$yearly_high[i]-TTWO_yearly$yearly_high[i-1])/TTWO_yearly$yearly_high[i-1]
+  TTWO_yearly$NetReturn_Low[i]<-(TTWO_yearly$yearly_low[i]-TTWO_yearly$yearly_low[i-1])/TTWO_yearly$yearly_low[i-1]
+  TTWO_yearly$NetReturn_Last[i]<-(TTWO_yearly$yearly_close[i]-TTWO_yearly$yearly_close[i-1])/TTWO_yearly$yearly_close[i-1]
+}
+
 #--------------------------------------------------------------------------------------------------------------
 # Calculating yearly volatility using standard deviation of log returns (volatilnost po godinama)
 #--------------------------------------------------------------------------------------------------------------
@@ -249,19 +320,6 @@ yearly_returns_TTWO$Volatility_Last[1] <- "/"
 yearly_returns_TTWO$Volatility_Last[1] <- sd(yearly_returns_TTWO$Last)
 
 ############## NOVO RESENJE ################
-TTWO<-TTWO[,10]
-install.packages("quantmod")
-library(quantmod)
-
-TTWO<-TTWO[,-10]
-TTWO_yearly$Volatility_Open <- "/"
-TTWO_yearly$Volatility_Open[1] <- sd(TTWO_yearly$LogReturn_Open)
-TTWO_yearly$Volatility_High <- "/"
-TTWO_yearly$Volatility_High[1] <- sd(TTWO_yearly$LogReturn_High)
-TTWO_yearly$Volatility_Low <- "/"
-TTWO_yearly$Volatility_Low[1] <- sd(TTWO_yearly$LogReturn_Low)
-TTWO_yearly$Volatility_Last <- "/"
-TTWO_yearly$Volatility_Last[1] <- sd(TTWO_yearly$LogReturn_Close)
 
 # Ucitaj pakete
 library(dplyr)
@@ -292,6 +350,7 @@ colnames(TTWO)[1]<-"Date"
 install.packages("plotly")
 library(plotly)
 library(quantmod)
+library(ggplot2)
 
 colnames(TTWO[1])<-"Date"
 
@@ -392,31 +451,75 @@ fig_TTWO_lr_y
 
 
 #--------------------------------------------------------------------------------------------------------------
-# On visual plots introducing moving averages on raw prices with windows 5, 21 and 63 
+# On visual plots introducing moving averages on raw prices with windows 5, 21, 63, 126 and 252 
 # for weekly, monthly and quarterly averages respectively
 #--------------------------------------------------------------------------------------------------------------
-#+252,+126
+
 library(zoo)
 TTWO$MA5 <- rollmean(TTWO$Last, k = 5, fill = NA)
 TTWO$MA21 <- rollmean(TTWO$Last, k = 21, fill = NA)
 TTWO$MA63 <- rollmean(TTWO$Last, k = 63, fill = NA)
+TTWO$MA126 <- rollmean(TTWO$Last, k = 126, fill = NA)
+TTWO$MA252 <- rollmean(TTWO$Last, k = 252, fill = NA)
 
 ggplot(TTWO, aes(x = Date, y = Last,group = 1)) + geom_line() + labs(x = "Date", y = "Price", title = "Raw Prices")
 
 ggplot(TTWO, aes(x = Date, y = Last,group = 1)) +
   geom_line() +
-  geom_line(aes(y = MA5,group = 1), color = "blue", linetype = "dashed") +
-  geom_line(aes(y = MA21,group = 1), color = "green", linetype = "dashed") +
-  geom_line(aes(y = MA63,group = 1), color = "red", linetype = "dashed") +
+  geom_line(aes(y = MA5,group = 1), color = "blue", linetype = "solid") +
+  geom_line(aes(y = MA21,group = 1), color = "green", linetype = "solid") +
+  geom_line(aes(y = MA63,group = 1), color = "red", linetype = "solid") +
+  geom_line(aes(y = MA126,group = 1), color = "yellow", linetype = "solid") +
+  geom_line(aes(y = MA252,group = 1), color = "magenta", linetype = "solid") +
   labs(x = "Date", y = "Price", title = "Moving Averages") +
   scale_linetype_manual(values = c("solid", "dashed", "dotted"))
 
 #--------------------------------------------------------------------------------------------------------------
-# Using all the gathered information from descriptive measures, returns and moving averages,
-# rating companies based on price levels of their stock
+# prinose (i log i net) iscrtati na line grafiku sa 5 podgrafika:
+# prinos open cene
+# prinos high
+# prinos low
+# prinos close
+# prinos candlestick (OVAJ DEO NE MOZE DA SE URADI, NE MOGU DA NADJEM NACIN DA SPOJIM LINECHART SA CANDLESTICK CHARTOM)
 #--------------------------------------------------------------------------------------------------------------
+#DNEVNI
+# Grafikon (Log Return)
+plot(TTWO$LogReturn_Open, type="l", col="red", xlab="Dan", ylab="Log return", main="TTWO Open, Close, High i Low Log Return")
+lines(TTWO$LogReturn_High, type="l", col="blue")
+lines(TTWO$LogReturn_Low, type="l", col="green")
+lines(TTWO$LogReturn_Last, type="l", col="purple")
+
+# Legenda za grafikone
+legend("topright", legend=c("Open", "High", "Low", "Close"), col=c("red", "blue", "green", "purple"), lty=1)
+
+##### sa candlestickom ---------NE RADI
+
+# Učitavanje potrebnih paketa
+library(ggplot2)
+install.packages("reshape2")
+library(reshape2)
 
 
+# Reshapeovanje podataka
+TTWO.m <- melt(TTWO[,c("Date", "LogReturn_Open", "LogReturn_Last", "LogReturn_High", "LogReturn_Low")], id.vars = "Date")
+
+# Kreiranje grafikona sa sve četiri cene i candlestick chart-om
+ggplot(TTWO.m, aes(Date, value)) +
+  geom_line(data = subset(TTWO.m, variable %in% c("LogReturn_Open", "LogReturn_Last", "LogReturn_High", "LogReturn_Low")), aes(color = variable)) +
+  geom_candlestick(data = TTWO, aes(x = Date, open = LogReturn_Open, high = LogReturn_High, low = LogReturn_Low, close = LogReturn_Last), fill = "red", color = "black") +
+  scale_color_manual(values = c("red", "blue", "green", "purple")) +
+  labs(title = "TTWO Open, Close, High i Low sa Candlestick Chart-om", x = "Datum", y = "Cena") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+# Grafikon (Net Return)
+plot(TTWO$NetReturn_Open, type="l", col="red", xlab="Dan", ylab="Net return", main="TTWO Open, Close, High i Low Net Return")
+lines(TTWO$NetReturn_High, type="l", col="blue")
+lines(TTWO$NetReturn_Low, type="l", col="green")
+lines(TTWO$NetReturn_Last, type="l", col="purple")
+
+# Legenda za grafikone
+legend("topright", legend=c("Open", "High", "Low", "Close"), col=c("red", "blue", "green", "purple"), lty=1)
 
 
 
